@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screen/checkin_screen.dart';
+import 'CheckInScreen/checkin_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -7,12 +9,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+    return ScreenUtilInit(
+      designSize: Size (390, 844), //Iphone 14 plus reference
+      child: MaterialApp(
       home: CheckInPage(), // Set the initial screen to CheckInPage
+      ), // Material App
     );
   }
 }
