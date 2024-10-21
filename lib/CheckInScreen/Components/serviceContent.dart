@@ -12,13 +12,13 @@ class WelcomeContainer extends StatelessWidget {
     final spaName = Provider.of<SpaNameProvider>(context).spaName;
 
     return Container(
-      width: 0.8.sw,
+      width: 0.9.sw,
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: Colors.white,
-          width: 1.5.w,
+          width: 1.w,
         ),
         boxShadow: [
           BoxShadow(
@@ -35,51 +35,43 @@ class WelcomeContainer extends StatelessWidget {
           ),
         ],
       ),
-      child: Stack(
+      
+      child: Column(
+        mainAxisSize: MainAxisSize.min, // Adjust height based on children
         children: [
-          Positioned(
-            top: 0.001.sh,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: AnimatedTextKit(
-                repeatForever: false,
-                totalRepeatCount: 1,
-                animatedTexts: [
-                  TyperAnimatedText(
-                    'Welcome To',
-                    speed: const Duration(milliseconds: 90),
-                    textStyle: GoogleFonts.allison(
-                      fontSize: 0.1.sh,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+          // First animated text
+          AnimatedTextKit(
+            repeatForever: false,
+            totalRepeatCount: 1,
+            animatedTexts: [
+              TyperAnimatedText(
+                'Welcome To',
+                speed: const Duration(milliseconds: 90),
+                textStyle: GoogleFonts.allison(
+                  fontSize: 0.1.sh,
+                  color: Colors.white,
+                ),
               ),
-            ),
+            ],
           ),
-          Positioned(
-            bottom: 0.05.sh,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: AnimatedTextKit(
-                repeatForever: true,
-                animatedTexts: [
-                  FadeAnimatedText(
-                    spaName,
-                    duration: const Duration(milliseconds: 3500),
-                    textStyle: GoogleFonts.inriaSerif(
-                      fontSize: 0.05.sh,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+          SizedBox(height: 1.h), // Space between texts
+          // Second animated text for spa name
+          AnimatedTextKit(
+            repeatForever: true,
+            animatedTexts: [
+              FadeAnimatedText(
+                spaName,
+                duration: const Duration(milliseconds: 3500),
+                textStyle: GoogleFonts.inriaSerif(
+                  fontSize: 0.05.sh,
+                  color: Colors.white,
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
+
     );
   }
 }
