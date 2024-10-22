@@ -60,14 +60,14 @@ class _CheckInPageState extends State<CheckInPage> {
 
     // If the width is less than or equal to 430, only show portrait mode
     if (width <= 430) {
-      return _buildPortrait(); // Directly show the portrait UI for smaller devices
+      return _buildPortrait(width); // Directly show the portrait UI for smaller devices
     }
 
     // For larger devices, handle both orientations using OrientationBuilder
     return OrientationBuilder(
       builder: (context, orientation) {
         if (orientation == Orientation.portrait) {
-          return _buildPortrait(); // Build the portrait mode UI
+          return _buildPortrait(width); // Build the portrait mode UI
         } else {
           return _buildLandScape(); // Build the landscape mode UI
         }
@@ -75,7 +75,7 @@ class _CheckInPageState extends State<CheckInPage> {
     );
   }
 
-  Widget _buildPortrait() {
+  Widget _buildPortrait(double width) {
     print("Portrait mode");
     return Scaffold(
       body: Container(
@@ -87,11 +87,11 @@ class _CheckInPageState extends State<CheckInPage> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             child: Column(
               children: <Widget>[
                 Expanded(
-                  flex: 3,
+                  flex:width < 430 ? 2 : 3,
                   child: WelcomeContainer(), // Use the new WelcomeContainer
                 ),
                 Expanded(
@@ -99,7 +99,7 @@ class _CheckInPageState extends State<CheckInPage> {
                   child: _buildPhoneNumberField(),
                 ),
                 Expanded(
-                  flex: 7,
+                  flex: width < 430 ? 4 : 7,
                   child: NumericKeypad(
                     onKeyPress: _onKeyPress,
                     onDelete: _onDelete,
@@ -151,8 +151,10 @@ class _CheckInPageState extends State<CheckInPage> {
                 flex: 4,  // Adjust flex as needed for the phone number and keypad height
                 child: Column(
                   children: <Widget>[
-                    
-                    SizedBox(height: 150.h),
+                    Container (
+                      height: MediaQuery.of(context).size.height * 0.2,
+                    ),
+
                     // Phone number field takes 3/10 space
                     Expanded(
                       flex: 3,
@@ -197,13 +199,13 @@ class _CheckInPageState extends State<CheckInPage> {
         child: TextField(
           controller: TextEditingController(text: phoneNumber),
           readOnly: true,
-          style: TextStyle(fontSize: isLandscape ? 20.sp : 30.sp, color: Colors.white),
+          style: TextStyle(fontSize: isLandscape ? 19.sp : 32.sp, color: Colors.white),
           textAlign: TextAlign.center,
           decoration: InputDecoration(
             hintText: 'Please enter your phone number',
             hintStyle: TextStyle(
               color: Colors.white.withOpacity(0.6),
-              fontSize: isLandscape ? 9.sp : 19.sp,
+              fontSize: isLandscape ? 8.sp : 19.sp,
             ),
             border: InputBorder.none,
           ),

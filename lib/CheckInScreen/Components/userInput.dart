@@ -26,7 +26,7 @@ class NumericKeypad extends StatelessWidget {
       crossAxisCount: 3,
       childAspectRatio: 1.5,
       mainAxisSpacing: isLandscape? 28.h : 18.h,
-      crossAxisSpacing: 12.w,
+      crossAxisSpacing: isLandscape? 12.w : 19.w,
       physics: NeverScrollableScrollPhysics(),
       children: List.generate(12, (index) {
           // Determine font size based on orientation
