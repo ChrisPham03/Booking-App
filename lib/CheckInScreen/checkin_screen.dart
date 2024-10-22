@@ -151,19 +151,8 @@ class _CheckInPageState extends State<CheckInPage> {
                 flex: 4,  // Adjust flex as needed for the phone number and keypad height
                 child: Column(
                   children: <Widget>[
-
-                  Container(
-                      height: MediaQuery.of(context).size.height * 0.25,  // 25% of the screen height
-                      alignment: Alignment.center,  // Center the text inside the container
-                      child: Text(
-                        "App Name", 
-                        style: TextStyle(
-                          fontSize: 24,  // Set the font size
-                          fontWeight: FontWeight.bold,  // Bold text
-                        ),
-                        textAlign: TextAlign.center,  // Center the text horizontally
-                      ),
-                    ),
+                    
+                    SizedBox(height: 150.h),
                     // Phone number field takes 3/10 space
                     Expanded(
                       flex: 3,
