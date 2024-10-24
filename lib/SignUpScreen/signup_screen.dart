@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Required for SystemChrome
 import '../../Providers/service_provider.dart';
+import '../../Providers/user_provider.dart'; // Import UserDetailsProvider
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'signup_input.dart'; // Import your UserDetailsInputForm
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-    @override
+  @override
   void initState() {
     super.initState();
     _setOrientationBasedOnSize(); // Set orientation based on device size
@@ -22,7 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       double width = MediaQuery.of(context).size.width;
 
-      // If the width is less than or equal to 430 logical pixels (iPhone 14 Pro Max size),
+      // If the width is less than or equal to 430 logical pixels,
       // lock the orientation to portrait mode
       if (width <= 430) {
         SystemChrome.setPreferredOrientations([
@@ -72,11 +73,10 @@ class _SignUpPageState extends State<SignUpPage> {
         }
       },
     );
-}
-}
+  }
 
-Widget _buildPortrait (double width){
-   return Scaffold(
+  Widget _buildPortrait(double width) {
+    return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -84,42 +84,83 @@ Widget _buildPortrait (double width){
             fit: BoxFit.cover,
           ),
         ),
-      ),
-      );
-
-}
-Widget _buildLandScape(context) {
-  final spaName = Provider.of<SpaNameProvider>(context).spaName;
-
-  return Scaffold(
-    body: Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/background.png'),
-          fit: BoxFit.cover,
+        child: SafeArea(
+          child: UserDetailsInputForm(
+            onSignUp: () => _onSignUp(), // Call the sign-up function
+          ),
         ),
       ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            // Title centered at the top
-            Padding(
-              padding: EdgeInsets.only(top: 20.h), // Optional padding from the top
-              child: Center(
-                child: Text(
-                  'Welcome to $spaName',
-                  style: TextStyle(
-                    fontSize: 28.sp, // Responsive text size
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+    );
+  }
+
+  Widget _buildLandScape(BuildContext context) {
+    final spaName = Provider.of<SpaNameProvider>(context).spaName;
+
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Title centered at the top
+              Padding(
+                padding: EdgeInsets.only(top: 20.h), // Optional padding from the top
+                child: Center(
+                  child: Text(
+                    'Welcome to $spaName',
+                    style: TextStyle(
+                      fontSize: 28.sp, // Responsive text size
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
-            // The rest of the UI goes here (e.g., phone number field, numeric keypad)
-          ],
+              // User Details Input Form
+              Expanded(
+                child: UserDetailsInputForm(
+                  onSignUp: _onSignUp, // Call the sign-up function
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
+
+  void _onSignUp() {
+    final userDetailsProvider = Provider.of<UserDetailsProvider>(context, listen: false);
+    
+    // Retrieve user details
+    String fullName = userDetailsProvider.fullName;
+    String birthday = userDetailsProvider.birthday;
+    String email = userDetailsProvider.email;
+    String preferredName = userDetailsProvider.referredBy; // Using referredBy field for Preferred Name
+
+    // Check if all fields are filled
+    if (fullName.isEmpty || birthday.isEmpty || email.isEmpty) {
+      // Show a message if any field is empty
+      print("Please fill all fields before signing up.");
+      // Optionally, show a snackbar or dialog for user feedback
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill all fields before signing up.')),
+      );
+    } else {
+      // Temporary sign-up logic
+      print("Sign Up Successful!");
+      print("Full Name: $fullName");
+      print("Birthday: $birthday");
+      print("Email: $email");
+      print("Preferred Name: $preferredName");
+      
+      // Navigate to another page, e.g., Home or Dashboard
+      Navigator.pushNamed(context, '/home'); // Adjust the route as needed
+    }
+  }
 }
