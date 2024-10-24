@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Required for SystemChrome
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'Components/user_provider.dart';
+import '../Providers/user_provider.dart';
 import 'Components/userInput.dart';
 import 'Components/serviceContent.dart';
+
+
 
 class CheckInPage extends StatefulWidget {
   @override
@@ -81,7 +83,7 @@ class _CheckInPageState extends State<CheckInPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/loginbackground.jpg'),
+            image: AssetImage('assets/images/background.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -120,7 +122,7 @@ class _CheckInPageState extends State<CheckInPage> {
     body: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/loginbackground.jpg'),
+          image: AssetImage('assets/images/background.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -223,8 +225,37 @@ class _CheckInPageState extends State<CheckInPage> {
   }
 
   void _onCheckMark() {
-    final phoneNumber = Provider.of<PhoneNumberProvider>(context, listen: false).phoneNumber;
-    print("Phone number: $phoneNumber");
-    // Implement your check-in logic here
+  final phoneNumber = Provider.of<PhoneNumberProvider>(context, listen: false).phoneNumber;
+
+  // Check if the phone number exists in the hardcoded list
+  bool phoneNumberExists = _checkIfPhoneNumberExists(phoneNumber);
+
+  if (phoneNumberExists) {
+    // If the phone number exists, navigate to the sign-in page
+    print("Phone number exists. Navigating to sign-in page.");
+    // Implement navigation logic here
+    //Navigator.pushNamed(context, '/signup');
+  } else {
+    // If the phone number does not exist, navigate to the sign-up page
+    print("Phone number does not exist. Navigating to sign-up page.");
+    // Implement navigation logic here
+    Navigator.pushNamed(context, '/signup');
   }
+}
+
+// Function to check if phone number exists in the hardcoded list
+bool _checkIfPhoneNumberExists(String phoneNumber) {
+  // Hardcoded list of existing phone numbers
+  List<String> existingPhoneNumbers = [
+    '9023149231',
+    '5559876543',
+    '5555555555',
+    '5550001111',
+    // Add more existing numbers as needed
+  ];
+
+  // Check if the provided phone number exists in the list
+  return existingPhoneNumbers.contains(phoneNumber);
+}
+
 }

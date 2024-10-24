@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'service_provider.dart';
+import '../../Providers/service_provider.dart';
 
 class WelcomeContainer extends StatelessWidget {
   @override
@@ -28,7 +28,7 @@ class WelcomeContainer extends StatelessWidget {
             spreadRadius: 0.005.sh,
           ),
           BoxShadow(
-            color: Colors.pink.withOpacity(0.15),
+            color: Colors.white.withOpacity(0.15),
             offset: Offset(0.005.sw, 0.003.sh),
             blurRadius: 0.01.sh,
             spreadRadius: 0.01.sh,
