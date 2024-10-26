@@ -11,6 +11,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => ServiceSelectionProvider()),
         ChangeNotifierProvider(create: (context) => ServiceProvider()),
         ChangeNotifierProvider(create: (context) => SpaAddressProvider()),
         ChangeNotifierProvider(create: (context) => PhoneNumberProvider()),

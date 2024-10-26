@@ -20,6 +20,8 @@ class PhoneNumberProvider with ChangeNotifier {
   }
 }
 
+
+
 class UserDetailsProvider with ChangeNotifier {
   String _fullName = '';
   String _birthday = '';
@@ -51,3 +53,8 @@ class UserDetailsProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+
+
+// Provider Class to manage service selection state
+
+

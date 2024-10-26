@@ -113,3 +113,28 @@ class ServiceProvider with ChangeNotifier {
 
   List<ServiceCategory> get categories => _categories;
 }
+
+class ServiceSelectionProvider with ChangeNotifier {
+  final Map<Service, bool> _serviceSelection = {};
+
+  Map<Service, bool> get serviceSelection => _serviceSelection;
+
+  List<Service> get selectedServices =>
+      _serviceSelection.entries
+          .where((entry) => entry.value)
+          .map((entry) => entry.key)
+          .toList();
+
+  void toggleServiceSelection(Service service) {
+    final currentSelection = _serviceSelection[service] ?? false;
+    _serviceSelection[service] = !currentSelection;
+    notifyListeners();
+  }
+
+  void clearSelections() {
+    _serviceSelection.forEach((key, value) {
+      _serviceSelection[key] = false;
+    });
+    notifyListeners();
+  }
+}

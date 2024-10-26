@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../Providers/service_provider.dart';
-import '../../Providers/user_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Components/header.dart';
 import 'Components/navigatebar.dart';
 import 'Components/ChooseBoard/serviceboard.dart';
@@ -14,6 +10,8 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
+  final ValueNotifier<int> stepNotifier = ValueNotifier(0); // Step notifier
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +46,7 @@ class _ServicePageState extends State<ServicePage> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+    stepNotifier.dispose(); // Dispose notifier
     super.dispose();
   }
 
@@ -81,11 +80,18 @@ class _ServicePageState extends State<ServicePage> {
         ),
         child: Column(
           children: [
-            Header(), // Use Header widget
-            NavigateBar(), // Add NavigateBar for navigation
+            Header(),
+            NavigateBar(stepNotifier: stepNotifier),
             Expanded(
               child: SafeArea(
-                child: ServiceBoard(), // Add ServiceBoard below the navbar
+                child: ValueListenableBuilder<int>(
+                  valueListenable: stepNotifier,
+                  builder: (context, step, _) {
+                    return step == 0
+                        ? ServiceBoard() // Show ServiceBoard on step 0
+                        : Center(child: Text('Choose Technician')); // Another widget on step 1
+                  },
+                ),
               ),
             ),
           ],
@@ -106,10 +112,17 @@ class _ServicePageState extends State<ServicePage> {
         child: Column(
           children: [
             Header(),
-            NavigateBar(), // Add NavigateBar for navigation
+            NavigateBar(stepNotifier: stepNotifier),
             Expanded(
               child: SafeArea(
-                child: ServiceBoard(), // Add ServiceBoard below the navbar
+                child: ValueListenableBuilder<int>(
+                  valueListenable: stepNotifier,
+                  builder: (context, step, _) {
+                    return step == 0
+                        ? ServiceBoard() // Show ServiceBoard on step 0
+                        : Center(child: Text('Choose Technician')); // Another widget on step 1
+                  },
+                ),
               ),
             ),
           ],
