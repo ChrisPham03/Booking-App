@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../Providers/service_provider.dart';
@@ -6,6 +5,8 @@ import '../../Providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Components/header.dart';
+import 'Components/navigatebar.dart';
+import 'Components/ChooseBoard/serviceboard.dart';
 
 class ServicePage extends StatefulWidget {
   @override
@@ -70,8 +71,6 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   Widget _buildPortrait() {
-    
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -83,14 +82,10 @@ class _ServicePageState extends State<ServicePage> {
         child: Column(
           children: [
             Header(), // Use Header widget
+            NavigateBar(), // Add NavigateBar for navigation
             Expanded(
               child: SafeArea(
-                child: Center(
-                  child: Text(
-                    'Portrait Content',
-                    style: TextStyle(fontSize: 20.sp, color: Colors.black87),
-                  ),
-                ),
+                child: ServiceBoard(), // Add ServiceBoard below the navbar
               ),
             ),
           ],
@@ -100,9 +95,6 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   Widget _buildLandScape(BuildContext context) {
-    final spaName = Provider.of<SpaNameProvider>(context).spaName;
-    final spaAddress = Provider.of<SpaAddressProvider>(context).spaAddress;
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -113,15 +105,11 @@ class _ServicePageState extends State<ServicePage> {
         ),
         child: Column(
           children: [
-            Header(), // Use Header widget
+            Header(),
+            NavigateBar(), // Add NavigateBar for navigation
             Expanded(
               child: SafeArea(
-                child: Center(
-                  child: Text(
-                    'Landscape Content',
-                    style: TextStyle(fontSize: 20.sp, color: Colors.black87),
-                  ),
-                ),
+                child: ServiceBoard(), // Add ServiceBoard below the navbar
               ),
             ),
           ],
