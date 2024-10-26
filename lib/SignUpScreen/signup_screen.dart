@@ -144,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
     String preferredName = userDetailsProvider.referredBy; // Using referredBy field for Preferred Name
 
     // Check if all fields are filled
-    if (fullName.isEmpty || birthday.isEmpty || email.isEmpty) {
+    if (fullName.isEmpty || email.isEmpty) {
       // Show a message if any field is empty
       print("Please fill all fields before signing up.");
       // Optionally, show a snackbar or dialog for user feedback

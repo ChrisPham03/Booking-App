@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart'; // Import for date formatting
-import '../../Providers/user_provider.dart'; // Adjust the import based on your project structure.
+import 'package:intl/intl.dart';
+import '../../Providers/user_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserDetailsInputForm extends StatefulWidget {
@@ -17,11 +17,12 @@ class UserDetailsInputForm extends StatefulWidget {
 class _UserDetailsInputFormState extends State<UserDetailsInputForm> {
   bool _isKeyboardVisible = false;
   DateTime? _selectedDate;
+  late TextEditingController _birthdayController;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the keyboard visibility listener for further customize
+    _birthdayController = TextEditingController();
     KeyboardVisibilityController().onChange.listen((bool isVisible) {
       setState(() {
         _isKeyboardVisible = isVisible;
@@ -29,38 +30,42 @@ class _UserDetailsInputFormState extends State<UserDetailsInputForm> {
     });
   }
 
+  @override
+  void dispose() {
+    _birthdayController.dispose();
+    super.dispose();
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(), // Default to today
-      firstDate: DateTime(1900), // Earliest date to choose
-      lastDate: DateTime.now(), // Latest date to choose
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: const Color.fromARGB(255, 55, 81, 109), // Change primary color to 37516D
-              onPrimary: Colors.white, // Text color of the selected date
-              onSurface: Colors.black, // Default color of the dates
+              primary: const Color.fromARGB(255, 55, 81, 109),
+              onPrimary: Colors.white,
+              onSurface: Colors.black,
             ),
           ),
           child: child!,
         );
       },
     );
-    if (picked != null && picked != _selectedDate) {
+    if (picked != null) {
       setState(() {
         _selectedDate = picked;
+        _birthdayController.text = DateFormat('MM/dd/yyyy').format(picked);
       });
-      // Format the selected date to include the full date (MM/dd/yyyy)
-      String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
-      Provider.of<UserDetailsProvider>(context, listen: false).updateBirthday(formattedDate);
+      Provider.of<UserDetailsProvider>(context, listen: false).updateBirthday(_birthdayController.text);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Access UserDetailsProvider from the context
     final userDetailsProvider = Provider.of<UserDetailsProvider>(context);
 
     return SingleChildScrollView(
@@ -78,12 +83,11 @@ class _UserDetailsInputFormState extends State<UserDetailsInputForm> {
               ),
             ],
           ),
-          width: 310.w, // Adjust width as needed for responsiveness
+          width: 310.w,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Row with Full Name and Birthday
               Row(
                 children: [
                   Expanded(
@@ -94,29 +98,27 @@ class _UserDetailsInputFormState extends State<UserDetailsInputForm> {
                       },
                     ),
                   ),
-                  SizedBox(width: 16.w), // Adjust space dynamically using screen width
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: TextField(
+                      controller: _birthdayController,
                       decoration: InputDecoration(
-                        labelText: 'Birthday',
+                        labelText: 'Birthday (OPTIONAL)',
+                        hintText: 'MM/DD/YY',
                         suffixIcon: IconButton(
                           icon: Icon(Icons.calendar_today),
-                          onPressed: () => _selectDate(context), // Show date picker on icon tap
+                          onPressed: () => _selectDate(context),
                         ),
                       ),
-                      readOnly: true, // Prevent keyboard from showing
-                      controller: TextEditingController(
-                        text: _selectedDate != null
-                            ? DateFormat('MM/dd/yyyy').format(_selectedDate!)
-                            : '',
-                      ),
+                      onChanged: (value) {
+                        userDetailsProvider.updateBirthday(value);
+                      },
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 24.h), // Adjust height dynamically
+              SizedBox(height: 24.h),
 
-              // Row with Email and Preferred Name
               Row(
                 children: [
                   Expanded(
@@ -127,43 +129,37 @@ class _UserDetailsInputFormState extends State<UserDetailsInputForm> {
                       },
                     ),
                   ),
-                  SizedBox(width: 16.w), // Adjust space dynamically using screen width
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: TextField(
-                      decoration: InputDecoration(labelText: 'Preferred Name'),
+                      decoration: InputDecoration(labelText: 'Preferred Name (OPTIONAL)'),
                       onChanged: (value) {
-                        userDetailsProvider.updateReferredBy(value); // Using referredBy field for Preferred Name
+                        userDetailsProvider.updateReferredBy(value);
                       },
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 24.h), // Adjust height dynamically
+              SizedBox(height: 24.h),
 
-                  // Sign Up Button at the bottom
-              // Sign Up Button at the bottom
               Align(
                 alignment: Alignment.center,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Call the onSignUp function when the button is pressed
-                    widget.onSignUp();
-                  },
+                  onPressed: widget.onSignUp,
                   child: Text(
                     'Sign Up',
-                    style: TextStyle(color: Colors.white), // Change text color to white for better contrast
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 55, 81, 109), // Set button color to #37516D
+                    backgroundColor: const Color.fromARGB(255, 55, 81, 109),
                     padding: EdgeInsets.symmetric(horizontal: 32.0.w, vertical: 12.0.h),
                   ).copyWith(
-                    // Customize the splash and highlight colors
-                    overlayColor: WidgetStateProperty.all(const Color.fromARGB(255, 255, 255, 255).withOpacity(0.2)), // Change overlay color
+                    overlayColor: WidgetStateProperty.all(
+                      const Color.fromARGB(255, 255, 255, 255).withOpacity(0.2),
+                    ),
                   ),
                 ),
               ),
-
-
             ],
           ),
         ),

@@ -5,11 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/service_provider.dart';
+import 'ServiceScreen/servicescreen.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => SpaAddressProvider()),
         ChangeNotifierProvider(create: (context) => PhoneNumberProvider()),
         ChangeNotifierProvider(create: (context) => SpaNameProvider()),
         ChangeNotifierProvider(create: (context) => UserDetailsProvider()),
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         initialRoute: '/', // Set the in aitial route
         routes: {
-          '/': (context) => CheckInPage(), // Main route for CheckInPage
+          '/': (context) => ServicePage(), // Main route for CheckInPage
           '/signup': (context) => SignUpPage(), // Route for SignUpPage
         },
         // Optionally, you can specify a theme or other properties here
