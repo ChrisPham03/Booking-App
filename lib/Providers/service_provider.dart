@@ -138,3 +138,79 @@ class ServiceSelectionProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class Technician {
+  final String id;
+  final String name;
+  final String imageUrl;
+
+  Technician({required this.id, required this.name, required this.imageUrl});
+}
+
+
+class TechnicianProvider with ChangeNotifier {
+  // Hardcoded list of technicians with image URLs
+  final List<Technician> _technicians = [
+    Technician(
+      id: "T1",
+      name: "Alex Pham Skibidi dabidu",
+      imageUrl: "assets/images/alex.jpg",
+    ),
+    Technician(
+      id: "T2",
+      name: "Natalie",
+      imageUrl: "assets/images/natalie.jpg",
+    ),
+    Technician(
+      id: "T3",
+      name: "Kevin Pham",
+      imageUrl: "assets/images/kevin.jpg",
+    ),
+    Technician(
+      id: "T4",
+      name: "Tim Pham ",
+      imageUrl: "assets/images/tim.jpg",
+    ),
+    Technician(
+      id: "T5",
+      name: "Chris Pham",
+      imageUrl: "assets/images/chris.jpg",
+    ),
+  ];
+
+  // Map to track technician selection status
+  final Map<Technician, bool> _technicianSelection = {};
+
+  TechnicianProvider() {
+    // Initialize _technicianSelection with the hardcoded technicians set to false
+    for (var technician in _technicians) {
+      _technicianSelection[technician] = false;
+    }
+  }
+
+  // Getter for technician selection map
+  Map<Technician, bool> get technicianSelection => _technicianSelection;
+
+  // Getter to retrieve only selected technicians
+  List<Technician> get selectedTechnicians =>
+      _technicianSelection.entries
+          .where((entry) => entry.value)
+          .map((entry) => entry.key)
+          .toList();
+
+  // Toggle selection status for a technician
+  void toggleTechnicianSelection(Technician technician) {
+    final currentSelection = _technicianSelection[technician] ?? false;
+    _technicianSelection[technician] = !currentSelection;
+    notifyListeners();
+  }
+
+  // Clear all selections
+  void clearSelections() {
+    _technicianSelection.updateAll((key, value) => false);
+    notifyListeners();
+  }
+
+  // Getter for the hardcoded technician list
+  List<Technician> get technicians => _technicians;
+}

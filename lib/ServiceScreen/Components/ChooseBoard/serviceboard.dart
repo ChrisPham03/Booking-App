@@ -116,6 +116,7 @@ class _ServiceBoardState extends State<ServiceBoard> {
                                       // Handle pick service action when the container is clicked
                                       _toggleServiceSelection(service);
                                       Provider.of<ServiceSelectionProvider>(context, listen: false).toggleServiceSelection(service);
+                                      //_showServiceDetailsDialog(service,['https://media.allure.com/photos/63976f46edbdb19d32ef2be1/16:9/w_2240,c_limit/Anneke%20Knot%20Hard%20Gel%20Manicure.png','https://envi.in/wp-content/uploads/2021/11/manicures-scaled-1.jpg']); // Show full service details on long press
                                     },
                                     onLongPress: () {
                                       _showServiceDetailsDialog(service,['https://media.allure.com/photos/63976f46edbdb19d32ef2be1/16:9/w_2240,c_limit/Anneke%20Knot%20Hard%20Gel%20Manicure.png','https://envi.in/wp-content/uploads/2021/11/manicures-scaled-1.jpg']); // Show full service details on long press
@@ -133,7 +134,12 @@ class _ServiceBoardState extends State<ServiceBoard> {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text(service.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                 _showServiceDetailsDialog(service,['https://media.allure.com/photos/63976f46edbdb19d32ef2be1/16:9/w_2240,c_limit/Anneke%20Knot%20Hard%20Gel%20Manicure.png','https://envi.in/wp-content/uploads/2021/11/manicures-scaled-1.jpg']); // Show full service details on long press
+                                                  },
+                                                  child: Text(service.name, style: TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline)),
+                                                ),
                                                 Text(
                                                   service.description,
                                                   maxLines: 1, // Limit to one line
@@ -225,7 +231,12 @@ class _ServiceBoardState extends State<ServiceBoard> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(service.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _showServiceDetailsDialog(service,['https://media.allure.com/photos/63976f46edbdb19d32ef2be1/16:9/w_2240,c_limit/Anneke%20Knot%20Hard%20Gel%20Manicure.png','https://envi.in/wp-content/uploads/2021/11/manicures-scaled-1.jpg']); // Show full service details on long press
+                                      },
+                                      child: Text(service.name, style: TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.underline)),
+                                    ),
                                     Text(
                                       service.description,
                                       maxLines: 1, // Limit to one line
@@ -289,7 +300,7 @@ class _ServiceBoardState extends State<ServiceBoard> {
     });
   }
 
-  List<Service> _temporarySelectedServices = []; // Temporary list for selected services
+List<Service> _temporarySelectedServices = []; // Temporary list for selected services
 
 void _toggleServiceSelection(Service service) {
   // Toggle the selection state of the service

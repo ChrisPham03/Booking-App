@@ -6,11 +6,13 @@ import 'package:provider/provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/service_provider.dart';
 import 'ServiceScreen/servicescreen.dart';
+import 'ServiceScreen/Components/ChooseBoard/technician_board.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => TechnicianProvider()),
         ChangeNotifierProvider(create: (context) => ServiceSelectionProvider()),
         ChangeNotifierProvider(create: (context) => ServiceProvider()),
         ChangeNotifierProvider(create: (context) => SpaAddressProvider()),

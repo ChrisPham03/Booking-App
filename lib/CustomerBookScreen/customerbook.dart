@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'Components/header.dart';
-import 'Components/navigatebar.dart';
-import 'Components/ChooseBoard/serviceboard.dart';
-import 'Components/ChooseBoard/technician_board.dart';
+import 'package:booking_app/ServiceScreen/Components/header.dart';
+
 
 class ServicePage extends StatefulWidget {
   @override
@@ -82,10 +80,10 @@ class _ServicePageState extends State<ServicePage> {
         child: Column(
           children: [
             Header(),
-            NavigateBar(stepNotifier: stepNotifier),
+           
             Expanded(
               child: SafeArea(
-                child: ValueListenableBuilder<int>(
+                child: ValueListenableBuilder<bool>(
                   valueListenable: stepNotifier,
                   builder: (context, step, _) {
                     return step == 0
@@ -116,7 +114,7 @@ class _ServicePageState extends State<ServicePage> {
             NavigateBar(stepNotifier: stepNotifier),
             Expanded(
               child: SafeArea(
-                child: ValueListenableBuilder<int>(
+                child: ValueListenableBuilder<bool>(
                   valueListenable: stepNotifier,
                   builder: (context, step, _) {
                     return step == 0
@@ -131,4 +129,4 @@ class _ServicePageState extends State<ServicePage> {
       ),
     );
   }
-}
+}vf
