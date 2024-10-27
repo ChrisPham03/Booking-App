@@ -26,12 +26,14 @@ class Service {
   final double price;
   final int duration; // Duration in minutes
   final String description; // Service description
+  final int point;
 
   Service({
     required this.name,
     required this.price,
     required this.duration,
     required this.description,
+    required this.point,
   });
 }
 
@@ -54,18 +56,21 @@ class ServiceProvider with ChangeNotifier {
           price: 25.0,
           duration: 30,
           description: "A simple nail trim, filing, and polish.",
+          point: 15,
         ),
         Service(
           name: "Luxury Pedicure",
           price: 50.0,
           duration: 60,
           description: "Indulge in our Luxury Pedicure, featuring a relaxing soak and expert nail care. Enjoy a rejuvenating foot and calf massage with premium products that nourish your skin. This treatment concludes with a flawless gel polish application, leaving your feet beautifully pampered and polished.",
+          point: 15,
         ),
         Service(
           name: "Gel Pedicure",
           price: 45.0,
           duration: 45,
           description: "Long-lasting gel polish application with nail care.",
+          point: 15,
         ),
       ],
     ),
@@ -77,18 +82,21 @@ class ServiceProvider with ChangeNotifier {
           price: 20.0,
           duration: 30,
           description: "Nail trimming, filing, and regular polish.",
+          point: 20,
         ),
         Service(
           name: "Gel Manicure",
           price: 40.0,
           duration: 60,
           description: "Gel polish application for a long-lasting finish.",
+          point: 20,
         ),
         Service(
           name: "French Manicure",
           price: 35.0,
           duration: 50,
           description: "Classic look with white tips on polished nails.",
+          point: 20,
         ),
       ],
     ),
@@ -100,12 +108,14 @@ class ServiceProvider with ChangeNotifier {
           price: 15.0,
           duration: 15,
           description: "Shaping of eyebrows using wax for a clean look.",
+          point: 20,
         ),
         Service(
           name: "Leg Waxing",
           price: 40.0,
           duration: 30,
           description: "Removal of hair from the legs for smooth skin.",
+          point: 20,
         ),
       ],
     ),

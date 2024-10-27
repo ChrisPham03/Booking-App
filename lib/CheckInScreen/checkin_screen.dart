@@ -5,6 +5,10 @@ import 'package:provider/provider.dart';
 import '../Providers/user_provider.dart';
 import 'Components/userInput.dart';
 import 'Components/serviceContent.dart';
+import 'Components/ipadscreen.dart';
+import '../../Providers/service_provider.dart';
+import 'package:intl/intl.dart'; 
+import 'Components/sliding.dart';
 
 
 
@@ -132,40 +136,64 @@ class _CheckInPageState extends State<CheckInPage> {
           child: Row(
             children: <Widget>[
               // Welcome board at the top
-              Expanded(
-                flex: 6,  // Adjust flex as needed for the welcome board height
-                child: Column(
-                  children: <Widget>[ 
-                    Container (
-                      height: MediaQuery.of(context).size.height * 0.25, // 1/4 of screen height
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 20.w), // Right-side padding
-                        child: WelcomeContainer(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      
+         Expanded(
+  flex: 6,  // Adjust flex as needed for the welcome board height
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Expanded( // Makes the WelcomeContainer take up 2/6 of the available height
+        flex: 2, // Adjust this value as needed
+        child: Padding(
+          padding: EdgeInsets.only(right: 20.w), // Right-side padding
+          child: WelcomeContainer(),
+        ),
+      ),
+      Expanded( // Makes the ScreenFrameWidget take up 4/6 of the available height
+        flex: 4, // Adjust this value as needed
+        child: Padding( // Adding padding to the left of the ScreenFrameWidget
+          padding: EdgeInsets.only(left: 10.w), // Left-side padding
+          child: SlideWidget(),
+        ),
+      ),
+    ],
+  ),
+),
 
               // Row for PhoneNumberField and NumericKeypad
               Expanded(
-                flex: 4,  // Adjust flex as needed for the phone number and keypad height
-                child: Column(
-                  children: <Widget>[
-                    Container (
-                      height: MediaQuery.of(context).size.height * 0.2,
-                    ),
+              flex: 4,  // Adjust flex as needed for the phone number and keypad height
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Align elements equally
+                children: <Widget>[
+                  // Center the "FastBiz" text using a flexible container
+                  Flexible(
+                    flex: 3, // Adjust the flex value as needed
+                    child: Container(
+                      child: Center(
+                        child: Text(
+                          'FastBiz',
+                          style: TextStyle(
+                                fontSize: 15.sp, // Adjust font size for "BooKingApp"
+                                fontWeight: FontWeight.bold,
+                                color: const Color.fromARGB(255, 79, 226, 246), // Set text color to cyan blue
+                                fontStyle: FontStyle.italic, // Set text style to italic
+                          ),
+                        ),
+                      ),
+                                  ),
+                                ),
 
                     // Phone number field takes 3/10 space
-                    Expanded(
-                      flex: 3,
+                    Flexible(
+                      flex: 2,
                       child: _buildPhoneNumberField(),
                     ),
-                    SizedBox(width: 10.w),  // Space between phone number field and numeric keypad
                     
+                    // Space between phone number field and numeric keypad
+                    SizedBox(height: 10), // Use height for vertical spacing
+
                     // Numeric keypad takes 7/10 space
-                    Expanded(
+                    Flexible(
                       flex: 8,
                       child: NumericKeypad(
                         onKeyPress: _onKeyPress,
@@ -176,6 +204,8 @@ class _CheckInPageState extends State<CheckInPage> {
                   ],
                 ),
               ),
+
+
             ],
           ),
         ),
@@ -201,7 +231,7 @@ class _CheckInPageState extends State<CheckInPage> {
         child: TextField(
           controller: TextEditingController(text: phoneNumber),
           readOnly: true,
-          style: TextStyle(fontSize: isLandscape ? 19.sp : 32.sp, color: Colors.white),
+          style: TextStyle(fontSize: isLandscape ? 18.sp : 32.sp, color: Colors.white),
           textAlign: TextAlign.center,
           decoration: InputDecoration(
             hintText: 'Please enter your phone number',
@@ -223,29 +253,56 @@ class _CheckInPageState extends State<CheckInPage> {
   void _onDelete() {
     Provider.of<PhoneNumberProvider>(context, listen: false).deleteLastDigit();
   }
-
-  void _onCheckMark() {
+void _onCheckMark(BuildContext context) {
   final phoneNumber = Provider.of<PhoneNumberProvider>(context, listen: false).phoneNumber;
 
   // Check if the phone number exists in the hardcoded list
   bool phoneNumberExists = _checkIfPhoneNumberExists(phoneNumber);
 
   if (phoneNumberExists) {
-    // If the phone number exists, navigate to the sign-in page
-    print("Phone number exists. Navigating to sign-in page.");
-    // Implement navigation logic here
-    //Navigator.pushNamed(context, '/signup');
+    print("Phone number exists. Navigating to CustomerBookPage with booking details.");
+    
+    final bookingDetailsProvider = Provider.of<BookingDetailsProvider>(context, listen: false);
+    bookingDetailsProvider.updateCustomerFullName('Chris');
+    bookingDetailsProvider.updateCustomerPhoneNumber(phoneNumber);
+    bookingDetailsProvider.updateBookingNote('Please ensure a relaxing atmosphere.');
+    bookingDetailsProvider.setAppointmentTime('2024-10-30 10:00 AM');
+
+    final technicianProvider = Provider.of<TechnicianProvider>(context, listen: false);
+    technicianProvider.clearSelections();
+    final selectedTechnician = technicianProvider.technicians.firstWhere(
+      (technician) => technician.name == "Natalie",
+      orElse: () => technicianProvider.technicians.first,
+    );
+    technicianProvider.toggleTechnicianSelection(selectedTechnician);
+    bookingDetailsProvider.setSelectedTechnician(selectedTechnician);
+
+    final serviceProvider = Provider.of<ServiceProvider>(context, listen: false);
+    final serviceSelectionProvider = Provider.of<ServiceSelectionProvider>(context, listen: false);
+    serviceSelectionProvider.clearSelections();
+    final selectedService = serviceProvider.categories
+        .firstWhere((category) => category.categoryName == "Pedicure")
+        .services
+        .firstWhere((service) => service.name == "Luxury Pedicure");
+    serviceSelectionProvider.toggleServiceSelection(selectedService);
+    bookingDetailsProvider.setSelectedService(selectedService);
+
+    final currentTime = DateFormat('HH:mm').format(DateTime.now());
+    bookingDetailsProvider.setCheckInTime(currentTime);
+
+    Navigator.pushReplacementNamed(
+      context,
+      '/checkin',
+      arguments: true,
+    );
   } else {
-    // If the phone number does not exist, navigate to the sign-up page
     print("Phone number does not exist. Navigating to sign-up page.");
-    // Implement navigation logic here
     Navigator.pushNamed(context, '/signup');
   }
 }
 
 // Function to check if phone number exists in the hardcoded list
 bool _checkIfPhoneNumberExists(String phoneNumber) {
-  // Hardcoded list of existing phone numbers
   List<String> existingPhoneNumbers = [
     '9023149231',
     '5559876543',
@@ -253,9 +310,10 @@ bool _checkIfPhoneNumberExists(String phoneNumber) {
     '5550001111',
     // Add more existing numbers as needed
   ];
-
-  // Check if the provided phone number exists in the list
   return existingPhoneNumbers.contains(phoneNumber);
 }
+
+
+
 
 }

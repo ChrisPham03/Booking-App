@@ -41,7 +41,7 @@ class _HeaderState extends State<Header> {
           Row(
             children: [
               Text(
-                "BooKingApp",
+                "FastBiz",
                 style: TextStyle(
                   fontSize: 10.sp, // Adjust font size for "BooKingApp"
                   fontWeight: FontWeight.bold,
@@ -144,7 +144,7 @@ class _HeaderState extends State<Header> {
             TextButton(
               onPressed: () {
                 // Implement your sign-out logic here
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.pushNamed(context, '/');// Close the dialog
               },
               child: Text('Sign Out'),
             ),

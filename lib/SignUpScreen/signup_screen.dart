@@ -75,64 +75,91 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildPortrait(double width) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: SafeArea(
-          child: UserDetailsInputForm(
-            onSignUp: () => _onSignUp(), // Call the sign-up function
-          ),
+Widget _buildPortrait(double width) {
+  final spaName = Provider.of<SpaNameProvider>(context).spaName;
+
+  return Scaffold(
+    body: Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.png'),
+          fit: BoxFit.cover,
         ),
       ),
-    );
-  }
-
-  Widget _buildLandScape(BuildContext context) {
-    final spaName = Provider.of<SpaNameProvider>(context).spaName;
-
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              // Title centered at the top
-              Padding(
-                padding: EdgeInsets.only(top: 20.h), // Optional padding from the top
-                child: Center(
-                  child: Text(
-                    'Welcome to $spaName',
-                    style: TextStyle(
-                      fontSize: 28.sp, // Responsive text size
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            // Title centered at the top
+            Padding(
+              padding: EdgeInsets.only(top: 20.h), // Optional padding from the top
+              child: Center(
+                child: Text(
+                  'Welcome to $spaName',
+                  style: TextStyle(
+                    fontSize: 22.sp, // Responsive text size
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),
-              // User Details Input Form
-              Expanded(
-                child: UserDetailsInputForm(
-                  onSignUp: _onSignUp, // Call the sign-up function
-                ),
-              ),
-            ],
-          ),
+            ),
+            // Spacer to push the input form down
+            Spacer(), // Takes up all remaining space
+            // User Details Input Form centered in the column
+            UserDetailsInputForm(
+              onSignUp: _onSignUp, // Call the sign-up function
+            ),
+            Spacer(), // Ensures the form is centered
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+
+  Widget _buildLandScape(BuildContext context) {
+  final spaName = Provider.of<SpaNameProvider>(context).spaName;
+
+  return Scaffold(
+    body: Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            // Title centered at the top
+            Padding(
+              padding: EdgeInsets.only(top: 20.h), // Optional padding from the top
+              child: Center(
+                child: Text(
+                  'Welcome to $spaName',
+                  style: TextStyle(
+                    fontSize: 22.sp, // Responsive text size
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            // Spacer to push the input form down
+            Spacer(), // Takes up all remaining space
+            // User Details Input Form centered in the column
+            UserDetailsInputForm(
+              onSignUp: _onSignUp, // Call the sign-up function
+            ),
+            Spacer(), // Ensures the form is centered
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 
   void _onSignUp() {
     final userDetailsProvider = Provider.of<UserDetailsProvider>(context, listen: false);
@@ -160,7 +187,7 @@ class _SignUpPageState extends State<SignUpPage> {
       print("Preferred Name: $preferredName");
       
       // Navigate to another page, e.g., Home or Dashboard
-      Navigator.pushNamed(context, '/home'); // Adjust the route as needed
+      Navigator.pushNamed(context, '/booking'); // Adjust the route as needed
     }
   }
 }

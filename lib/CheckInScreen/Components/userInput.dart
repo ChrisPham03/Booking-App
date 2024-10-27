@@ -11,8 +11,7 @@ class NumericKeypad extends StatelessWidget {
   
   final Function(String) onKeyPress;
   final Function onDelete;
-  final Function onCheckMark;
-
+  final void Function(BuildContext) onCheckMark;
   NumericKeypad({
     required this.onKeyPress,
     required this.onDelete,
@@ -41,7 +40,7 @@ class NumericKeypad extends StatelessWidget {
         } else if (index == 11) {
           return Visibility(
             visible: Provider.of<PhoneNumberProvider>(context).phoneNumber.length >= 10,
-            child: _buildButton('', icon: Icons.check, onPressed: () => onCheckMark(),fontSize: fontSize),
+            child: _buildButton('', icon: Icons.check, onPressed: () => onCheckMark(context),fontSize: fontSize),
           );
         }
         return Container();

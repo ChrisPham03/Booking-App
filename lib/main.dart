@@ -6,12 +6,13 @@ import 'package:provider/provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/service_provider.dart';
 import 'ServiceScreen/servicescreen.dart';
-import 'ServiceScreen/Components/ChooseBoard/technician_board.dart';
+import 'CustomerBookScreen/customerbook.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => BookingDetailsProvider()),
         ChangeNotifierProvider(create: (context) => TechnicianProvider()),
         ChangeNotifierProvider(create: (context) => ServiceSelectionProvider()),
         ChangeNotifierProvider(create: (context) => ServiceProvider()),
@@ -33,8 +34,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         initialRoute: '/', // Set the in aitial route
         routes: {
-          '/': (context) => ServicePage(), // Main route for CheckInPage
+          '/': (context) => CheckInPage(), // Main route for CheckInPage
           '/signup': (context) => SignUpPage(), // Route for SignUpPage
+          '/booking': (context) => ServicePage(),
+          '/checkin':(context) => CustomerBookPage()
         },
         // Optionally, you can specify a theme or other properties here
       ),

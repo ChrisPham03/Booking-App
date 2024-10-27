@@ -66,104 +66,122 @@ class _UserDetailsInputFormState extends State<UserDetailsInputForm> {
 
   @override
   Widget build(BuildContext context) {
-    final userDetailsProvider = Provider.of<UserDetailsProvider>(context);
+  final userDetailsProvider = Provider.of<UserDetailsProvider>(context);
+  final phonenumberProvider= Provider.of<PhoneNumberProvider>(context);
 
-    return SingleChildScrollView(
-      child: Center(
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 6.0,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          width: 310.w,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(labelText: 'Full Name'),
-                      onChanged: (value) {
-                        userDetailsProvider.updateFullName(value);
-                      },
-                    ),
-                  ),
-                  SizedBox(width: 16.w),
-                  Expanded(
-                    child: TextField(
-                      controller: _birthdayController,
-                      decoration: InputDecoration(
-                        labelText: 'Birthday (OPTIONAL)',
-                        hintText: 'MM/DD/YY',
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.calendar_today),
-                          onPressed: () => _selectDate(context),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        userDetailsProvider.updateBirthday(value);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 24.h),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(labelText: 'Email'),
-                      onChanged: (value) {
-                        userDetailsProvider.updateEmail(value);
-                      },
-                    ),
-                  ),
-                  SizedBox(width: 16.w),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(labelText: 'Preferred Name (OPTIONAL)'),
-                      onChanged: (value) {
-                        userDetailsProvider.updateReferredBy(value);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 24.h),
-
+  return SingleChildScrollView(
+    child: Center(
+      child: Container(
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 6.0,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        width: 310.w,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+             // Centered text for phone number
               Align(
                 alignment: Alignment.center,
-                child: ElevatedButton(
-                  onPressed: widget.onSignUp,
-                  child: Text(
-                    'Sign Up',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 55, 81, 109),
-                    padding: EdgeInsets.symmetric(horizontal: 32.0.w, vertical: 12.0.h),
-                  ).copyWith(
-                    overlayColor: WidgetStateProperty.all(
-                      const Color.fromARGB(255, 255, 255, 255).withOpacity(0.2),
-                    ),
+                child: Text(
+                  'Your phone number is ${phonenumberProvider.phoneNumber}', // Assuming you have a phoneNumber property
+                  style: TextStyle(
+                    fontSize: 7.sp, // Responsive text size
+                    color:const Color.fromARGB(255, 55, 81, 109), // Change as needed
                   ),
                 ),
               ),
-            ],
-          ),
+            SizedBox(height:15),
+            Row(
+              children: [
+                
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(labelText: 'Full Name'),
+                    onChanged: (value) {
+                      userDetailsProvider.updateFullName(value);
+                    },
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: TextField(
+                    controller: _birthdayController,
+                    decoration: InputDecoration(
+                      labelText: 'Birthday (OPTIONAL)',
+                      hintText: 'MM/DD/YY',
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.calendar_today),
+                        onPressed: () => _selectDate(context),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      userDetailsProvider.updateBirthday(value);
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 24.h),
+
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(labelText: 'Email'),
+                    onChanged: (value) {
+                      userDetailsProvider.updateEmail(value);
+                    },
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(labelText: 'Preferred Name (OPTIONAL)'),
+                    onChanged: (value) {
+                      userDetailsProvider.updateReferredBy(value);
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 24.h),
+
+
+            SizedBox(height: 24.h),
+
+            Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                onPressed: widget.onSignUp,
+                child: Text(
+                  'Sign Up',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 55, 81, 109),
+                  padding: EdgeInsets.symmetric(horizontal: 32.0.w, vertical: 12.0.h),
+                ).copyWith(
+                  overlayColor: WidgetStateProperty.all(
+                    const Color.fromARGB(255, 255, 255, 255).withOpacity(0.2),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
