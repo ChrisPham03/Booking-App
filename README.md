@@ -4,8 +4,6 @@
 
 A modern, Flutter-based customer check-in and service booking interface for nail salons and spas.
 
-![Check-in Interface](images/welcome-screen.png)
-
 </div>
 
 ## 📱 App Overview
@@ -136,18 +134,18 @@ flutter emulators --launch tablet
 ```
 screenshots/
 ├── check-in/
-│   └── phone-entry.png       # Numeric keypad with advertisement
-├── registration/
-│   └── new-customer.png      # New customer registration form
+│   └── phone-entry.png         # Initial check-in screen with keypad
 ├── confirmation/
-│   └── booking-details.png   # Check-in confirmation with points
+│   └── booking-details.png     # Booking confirmation view
+├── registration/
+│   └── new-customer.png        # New customer form
 ├── services/
-│   ├── service-list.png      # Service category listing
-│   ├── service-hover.png     # Service card hover state
-│   └── service-details.png   # Service detailed view modal
+│   ├── service-details.png     # Service modal view
+│   ├── service-hover.png       # Service card hover state
+│   └── service-list.png        # Main service selection
 └── technicians/
-    ├── tech-list.png         # Technician selection screen
-    └── tech-portfolio.png    # Technician portfolio modal
+    ├── tech-list.png          # Staff selection view
+    └── tech-portfolio.png     # Portfolio modal
 ```
 
 ### Check-in Flow
