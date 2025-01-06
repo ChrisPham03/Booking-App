@@ -2,217 +2,211 @@
 
 <div align="center">
 
-A modern, Flutter-based customer check-in system for nail salons and spas.
+A modern, Flutter-based customer check-in and service booking interface for nail salons and spas.
 
-![FastBiz Interface](images/phone-checkin.png)
+![Check-in Interface](images/welcome-screen.png)
 
 </div>
 
-## Overview
-A Flutter-based customer check-in and service booking interface for Holidays Nails & Spa, designed to streamline the customer experience and service management.
+## 📱 App Overview
+Customer Check In Interface is a tablet-optimized Flutter application designed for Holidays Nails & Spa, streamlining the customer check-in experience and service management. The app features a modern UI with smooth animations and an intuitive booking flow.
 
-![FastBiz Interface](images/project-screenshot.png)
+## ✨ Key Features
 
-## Features
-
-### 📱 Customer Check-in Flow
-- Phone number-based check-in system
+### Check-in System
+- Phone number-based check-in with numeric keypad
+- Animated service advertisements during check-in
 - New customer registration with optional fields
-- Points tracking system for customer loyalty
-- Booking notes functionality
-- Real-time check-in status updates
+- Elegant welcome screen with business branding
 
-### 🎨 Modern UI/UX Elements
-- Clean, intuitive interface design
-- Interactive service selection cards
-- Animated advertisements integration
-- Dynamic service previews on hover
-- Smooth transitions between screens
-
-### 💅 Service Management
-- Categorized service listings (Pedicure, Manicure, Waxing)
-- Detailed service descriptions and pricing
-- Duration estimates for each service
-- Interactive technician selection
-- Service preview images
-
-### 👥 Staff Features
-- Technician profiles with photos
-- Work portfolio display
-- Real-time availability status
-- Booking management interface
-
-### 💳 Pricing & Duration
-- Transparent pricing display
-- Service duration indicators
+### Service Management
+- Categorized services (Pedicure, Manicure, Waxing)
+- Interactive service cards with hover effects
+- Detailed service descriptions with images
+- Dynamic pricing and duration display
 - Points earning system integration
-- Easy service comparison
 
-## 🛠 Technical Stack
+### Staff Features
+- Technician profiles with portfolio
+- Real-time availability tracking
+- Work samples gallery
+- Individual service specializations
+
+### Booking Flow
+- Two-step booking process
+  - Step 1: Service Selection
+  - Step 2: Technician Selection
+- Custom booking notes
+- Points tracking system
+- Real-time status updates
+
+## 🛠 Technical Implementation
 
 ### Core Technologies
 ```yaml
-frontend:
-  framework: Flutter 3.16.0
-  language: Dart 3.2.0
-  state_management: Riverpod
-  
-styling:
-  ui_kit: Material Design 3
-  custom: Custom Theme System
-  
-backend:
-  database: Firebase Firestore
-  authentication: Firebase Auth
-  storage: Firebase Storage
-  
-development:
-  version_control: Git
-  ide: VS Code
-  platform: iOS/Android/Web
+framework: Flutter (latest)
+language: Dart
+state_management: Provider
+ui_components: Material Design 3
 ```
 
-### Key Dependencies
+### Key Packages
 ```yaml
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^2.24.0
-  firebase_auth: ^4.15.0
-  cloud_firestore: ^4.13.3
-  riverpod: ^2.4.9
-  flutter_riverpod: ^2.4.9
-  go_router: ^12.1.1
-  shared_preferences: ^2.2.2
-  cached_network_image: ^3.3.0
+  provider: ^6.0.0
+  cached_network_image: ^3.2.0
+  shared_preferences: ^2.0.0
+  intl: ^0.17.0
+```
+
+### Project Structure
+```
+lib/
+├── main.dart
+├── screens/
+│   ├── welcome_screen.dart
+│   ├── service_selection_screen.dart
+│   ├── technician_selection_screen.dart
+│   └── booking_confirmation_screen.dart
+├── widgets/
+│   ├── numeric_keypad.dart
+│   ├── service_card.dart
+│   ├── technician_list_item.dart
+│   └── booking_details.dart
+├── models/
+│   ├── service.dart
+│   ├── technician.dart
+│   └── booking.dart
+└── utils/
+    ├── constants.dart
+    └── theme.dart
 ```
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- Flutter SDK (3.16.0 or higher)
-- Dart SDK (3.2.0 or higher)
-- Firebase CLI
-- VS Code or Android Studio
-- Git
-
-### Installation
-
-1. Clone the repository:
+1. Install Flutter:
 ```bash
-git clone https://github.com/ChrisPham03/customer-check-in.git
+git clone https://github.com/flutter/flutter.git
+export PATH="$PATH:`pwd`/flutter/bin"
+```
+
+2. Clone the repository:
+```bash
+git clone https://github.com/YourUsername/customer-check-in.git
 cd customer-check-in
 ```
 
-2. Install dependencies:
+3. Get dependencies:
 ```bash
 flutter pub get
 ```
 
-3. Set up Firebase:
-```bash
-# Install Firebase CLI if not installed
-npm install -g firebase-tools
-
-# Login to Firebase
-firebase login
-
-# Initialize Firebase in your project
-firebase init
-```
-
 4. Run the app:
 ```bash
-# Development
-flutter run
+# For tablet optimization
+flutter run -d tablet
 
-# Release mode
-flutter run --release
+# For specific device
+flutter run -d [device-id]
 ```
 
-### Device Simulation
+## 📱 Device Configuration
 
-#### iOS Simulator
-```bash
-# Open iOS Simulator (Mac only)
-open -a Simulator
-
-# Run on iOS Simulator
-flutter run -d ios
-```
-
-#### Android Emulator
-```bash
-# List available emulators
-flutter emulators
-
-# Launch emulator
-flutter emulators --launch <emulator_id>
-
-# Run on Android emulator
-flutter run -d android
-```
-
-#### Web
-```bash
-# Enable web support
-flutter config --enable-web
-
-# Run on web
-flutter run -d chrome
-```
-
-### Custom Screen Sizes
-For tablet optimization (as shown in screenshots):
+### Tablet Mode (Recommended)
 ```bash
 # iOS Simulator
-xcrun simctl create "iPad Pro" com.apple.CoreSimulator.SimDeviceType.iPad-Pro
+open -a Simulator
+xcrun simctl create "iPad Pro" com.apple.CoreSimulator.SimDeviceType.iPad-Pro-11-inch-4th-generation
 
 # Android Emulator
-flutter emulators --create [--name=tablet] --platform android
+flutter emulators --create --name tablet
+flutter emulators --launch tablet
 ```
 
-## 📱 Supported Devices
-- Tablets (Primary focus)
-  - iPad (9.7", 10.2", 10.5", 11", 12.9")
-  - Android Tablets (10" and above)
-- Mobile Phones (Responsive support)
-  - iOS (iPhone X and above)
-  - Android (API level 21 and above)
-- Web Browsers
-  - Chrome
-  - Safari
-  - Firefox
-  - Edge
+### Development Settings
+- Minimum iPad Size: 10.2 inches
+- Orientation: Landscape
+- Target Platform: iOS/Android tablets
 
-## Project Status
-- ✅ UI/UX Implementation
-- ✅ Core Check-in Functionality
-- ✅ Service Selection System
-- ✅ Points Integration
-- ✅ Technician Selection
-- ✅ Basic Animations
+## 📸 Screenshots
 
-## Screenshots
+### Directory Structure
+```
+screenshots/
+├── check-in/
+│   └── phone-entry.png       # Numeric keypad with advertisement
+├── registration/
+│   └── new-customer.png      # New customer registration form
+├── confirmation/
+│   └── booking-details.png   # Check-in confirmation with points
+├── services/
+│   ├── service-list.png      # Service category listing
+│   ├── service-hover.png     # Service card hover state
+│   └── service-details.png   # Service detailed view modal
+└── technicians/
+    ├── tech-list.png         # Technician selection screen
+    └── tech-portfolio.png    # Technician portfolio modal
+```
 
-| Check-in Screen | Service Selection | Settings |
-|:-------------------------:|:-------------------------:|:-------------------------:|
-| ![Check-in](images/phone-checkin.png) | ![Services](images/service-selection.png) | ![Settings](images/profile.png) |
+### Check-in Flow
+| Screen | Description | Features |
+|--------|-------------|-----------|
+| ![Check-in](screenshots/check-in/phone-entry.png) | Phone Number Entry | • Numeric keypad<br>• Animated advertisement display<br>• Error validation |
+| ![Registration](screenshots/registration/new-customer.png) | New Customer Registration | • Optional fields<br>• Form validation<br>• Birthday picker |
+| ![Confirmation](screenshots/confirmation/booking-details.png) | Booking Confirmation | • Points display<br>• Service summary<br>• Booking notes |
 
-## Development Timeline
-- Project Duration: Oct 12, 2024 - Oct 21, 2024
-- Initial Release: Oct 21, 2024
+### Service Selection
+Interactive service cards with rich hover states and detailed information:
 
-## Future Enhancements
-- [ ] Online booking integration
-- [ ] Payment processing
-- [ ] Email notifications
-- [ ] Customer feedback system
-- [ ] Advanced analytics dashboard
+<table>
+  <tr>
+    <td><img src="screenshots/services/service-list.png" alt="Service List" /><br><em>Service Categories View</em></td>
+    <td><img src="screenshots/services/service-hover.png" alt="Service Hover" /><br><em>Service Card Hover State</em></td>
+  </tr>
+</table>
 
-## Contributors
-- Designed and implemented by Chris Pham
-- Part of the FastBiz service booking app ecosystem
+#### Service Details Modal
+![Service Details](screenshots/services/service-details.png)
+- 💫 Long press or click to view detailed service information
+- 🖼️ Service preview images
+- 💰 Pricing and duration details
+- 📝 Complete service description
 
-## License
-This project is proprietary software developed for Holidays Nails & Spa.
+### Technician Selection
+Interactive technician profiles with portfolio display:
+
+<table>
+  <tr>
+    <td><img src="screenshots/technicians/tech-list.png" alt="Technician List" /><br><em>Technician Selection Screen</em></td>
+    <td><img src="screenshots/technicians/tech-portfolio.png" alt="Technician Portfolio" /><br><em>Portfolio Modal View</em></td>
+  </tr>
+</table>
+
+#### Interaction Features
+- 👆 Tap to select technician
+- 🖱️ Hover to preview portfolio
+- ⌛ Long press for full portfolio modal
+- 🎯 Real-time availability status
+
+## 🔄 Current Status
+- ✅ UI Implementation
+- ✅ Check-in Flow
+- ✅ Service Selection
+- ✅ Technician Profiles
+- ✅ Points System Integration
+- ✅ Booking Management
+
+## 🎯 Future Enhancements
+- [ ] Online Appointment Scheduling
+- [ ] Push Notifications
+- [ ] Customer History Tracking
+- [ ] Advanced Analytics Dashboard
+- [ ] Multi-language Support
+
+## 👥 Contributors
+Designed and developed by Chris Pham
+
+## 📄 License
+Proprietary software - Holidays Nails & Spa
